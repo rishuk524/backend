@@ -24,6 +24,10 @@ app.use('/api', blogRoutes);
 app.use('/api', generatedRoutes)
 app.use('/api',pdfRoutes)
 
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 // Server
 const PORT = process.env.PORT || 5000// Connect to database
 connectDB().then(()=>{
