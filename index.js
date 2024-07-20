@@ -4,9 +4,8 @@ const connectDB = require('./Config/database');
 const cors = require("cors")
 const registrationRoutes = require("./Routes/registrationRoutes")
 const blogRoutes = require('./Routes/blogRoutes');
-const generatedRoutes = require("./Routes/GeneratedRoutes")
-const pdfRoutes = require("./Routes/PdfRoutes")
-
+const generatedRoutes = require("./Routes/GeneratedRoutespdf")
+const  pettitionRoutes = require("./Routes/PettitionRoutes")
 require('dotenv').config();
 
 const app = express();
@@ -22,7 +21,7 @@ app.use(cors());
 app.use("/auth", registrationRoutes)
 app.use('/api', blogRoutes);
 app.use('/api', generatedRoutes)
-app.use('/api',pdfRoutes)
+app.use('/api', pettitionRoutes)
 
 
 app.get('/', (req, res) => {

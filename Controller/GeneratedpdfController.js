@@ -1,4 +1,4 @@
-const generatedModels = require("../Models/GenratedLegalNotice")
+const generatedModels = require("../Models/Genratedpdf")
 
 const saveGeneratedContent = async (req, res) => {
     const { content } = req.body;
