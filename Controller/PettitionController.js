@@ -9,6 +9,7 @@ const Petition = require('../Models/PettitionModel');
         const newPetition = new Petition({ generatedPetition, references, procedure });
         await newPetition.save();
         res.status(201).json(newPetition);
+        console.log(newPetition);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
