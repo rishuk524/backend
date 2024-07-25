@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const connectDB = require('./Config/database');
 const cors = require("cors")
 const registrationRoutes = require("./Routes/registrationRoutes")
-const blogRoutes = require('./Routes/blogRoutes');
+const blogRoutes = require('./Routes/ChatRoutes');
 const generatedRoutes = require("./Routes/GeneratedRoutespdf")
 const  pettitionRoutes = require("./Routes/PettitionRoutes")
 require('dotenv').config();

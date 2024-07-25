@@ -1,6 +1,6 @@
-const BlogModels = require('../Models/BlogModels');
+const ChatModels = require('../Models/ChatModels');
 
-const createBlog = async (req, res) => {
+const createChat = async (req, res) => {
   try {
     const { question, answer } = req.body;
     // const pdfData = req.file.buffer;
@@ -8,7 +8,7 @@ const createBlog = async (req, res) => {
     // const pdfContentType = req.file.mimetype;
     // console.log(req.body,  pdfName, pdfContentType);
 
-    const newBlog = new BlogModels({
+    const newBlog = new ChatModels({
       question,
       answer,
       // pdfData,
@@ -46,9 +46,9 @@ const createBlog = async (req, res) => {
 //     res.status(500).json({ message: 'Server error', error: error.message });
 //   }
 // };
-const getAllBlogs = async (req, res) => {
+const getAllChat = async (req, res) => {
   try {
-    const blogs = await BlogModels.find();
+    const blogs = await ChatModels.find();
     res.status(200).json(blogs);
   } catch (error) {
     console.error('Error fetching blogs:', error);
@@ -58,7 +58,7 @@ const getAllBlogs = async (req, res) => {
 
 
 module.exports = {
-  createBlog,
+  createChat,
   // downloadPDF,
-  getAllBlogs
+  getAllChat
 }
