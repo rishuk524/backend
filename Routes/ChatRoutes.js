@@ -5,5 +5,5 @@ const ChatController = require("../Controller/ChatControllerr");
 
 router.post('/chats',  ChatController.createChat);
 // router.get('/blogs/:id/download', BlogController.downloadPDF);
-router.get('/get-all-chats', ChatController.createChat) ;
+router.get('/get-all-chats', ChatController.getAllChat) ;
 module.exports = router;
