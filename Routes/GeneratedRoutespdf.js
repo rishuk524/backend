@@ -5,7 +5,7 @@ const jwtMiddlewareTest = require("../Controller/JwtMiddlewareTest")
 
 const GeneratedpdfController = require("../Controller/GeneratedpdfController")
 
-router.post("/save",jwtMiddleware.jwtMiddleware, jwtMiddlewareTest.jwtMiddlewareTest, GeneratedpdfController.saveGeneratedContent)
+router.post("/save",jwtMiddleware.jwtMiddleware, GeneratedpdfController.saveGeneratedContent)
 router.put("/update/:id",GeneratedpdfController.updateContent)
 
 
