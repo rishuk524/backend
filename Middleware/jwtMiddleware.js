@@ -11,8 +11,9 @@ const jwtMiddleware = (req, res, next) => {
   try {
     const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
     req.user = decoded;
-    console.log(req.user);
+    // console.log(req.user);
     next();
+    console.log(req.user);
   } catch (error) {
     console.error('Error verifying token:', error.message);
     return res.status(401).json({ success: false, message: 'Unauthorized: Invalid token' });
