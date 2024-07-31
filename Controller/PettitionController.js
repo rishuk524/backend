@@ -30,7 +30,7 @@ const Petition = require('../Models/PettitionModel');
 // Get all petitions
  const getAllPettition = async (req, res) => {
     try {
-        const petitions = await Petition.find();
+        const petitions = await Petition.find({userId });
         res.status(200).json(petitions);
     } catch (error) {
         res.status(400).json({ error: error.message });
