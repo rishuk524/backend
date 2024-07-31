@@ -7,6 +7,7 @@ const GeneratedpdfController = require("../Controller/GeneratedpdfController")
 
 router.post("/save",jwtMiddleware.jwtMiddleware, GeneratedpdfController.saveGeneratedContent)
 router.put("/update/:id",GeneratedpdfController.updateContent)
+router.get("/get-all-content", jwtMiddleware.jwtMiddleware,GeneratedpdfController.getAllContent)
 
 
 

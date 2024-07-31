@@ -35,10 +35,24 @@ const updateContent = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 
-    
+
 };
+const getAllContent = async (req, res) => {
+    try {
+        // Fetch all content from the database
+        const allContent = await generatedModels.find();
+
+        // Send the list of content as a JSON response
+        res.status(200).json({ success: true, content: allContent });
+    } catch (error) {
+        // Handle any errors that occur
+        res.status(500).json({ success: false, message: "Server error", error: error.message });
+    }
+};
+
   module.exports = {
    saveGeneratedContent,
-   updateContent
+   updateContent,
+   getAllContent
   };
   
