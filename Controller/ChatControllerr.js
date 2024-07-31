@@ -3,63 +3,38 @@ const ChatModels = require('../Models/ChatModels');
 const createChat = async (req, res) => {
   try {
     const { question, answer } = req.body;
-    // const pdfData = req.file.buffer;
-    // const pdfName = req.file.originalname;
-    // const pdfContentType = req.file.mimetype;
-    // console.log(req.body,  pdfName, pdfContentType);
+    const userId = req.user.id; // Get the authenticated user's ID
 
-    const newBlog = new ChatModels({
+    const newChat = new ChatModels({
       question,
       answer,
-      // pdfData,
-      // pdfName,
-      // pdfContentType,
+      userId // Link the chat to the user
     });
-    console.log(newBlog);
-    await newBlog.save();
-    res.status(201).json(newBlog);
+
+    await newChat.save();
+    res.status(201).json(newChat);
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
-
-
-
-//  const downloadPDF = async (req, res) => {
-//   try {
-//     const blogId = req.params.id;
-//     const blog = await BlogModels.findById(blogId);
-
-//     if (!blog) {
-//       return res.status(404).json({ message: 'Blog not found' });
-//     }
-
-//     res.set({
-//       'Content-Type': blog.pdfContentType,
-//       'Content-Disposition': `attachment; filename="${blog.pdfName}"`,
-//     });
-
-//     res.send(blog.pdfData);
-
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error', error: error.message });
-//   }
-// };
 const getAllChat = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const blogs = await ChatModels.find({userId});
-    res.status(200).json(blogs);
+    const userId = req.user.id; // Get the authenticated user's ID
+
+    // Fetch all chats for the authenticated user
+    const chats = await ChatModels.find({ userId });
+
+    // Send the list of chats as a JSON response
+    res.status(200).json({ success: true, chats });
   } catch (error) {
-    console.error('Error fetching blogs:', error);
-    res.status(500).json({ error: 'Failed to fetch blogs' });
+    console.error('Error fetching chats:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch chats', error: error.message });
   }
 };
 
-
 module.exports = {
   createChat,
-  // downloadPDF,
   getAllChat
-}
+};
+
