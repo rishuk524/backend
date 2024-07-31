@@ -48,7 +48,8 @@ const createChat = async (req, res) => {
 // };
 const getAllChat = async (req, res) => {
   try {
-    const blogs = await ChatModels.find();
+    const userId = req.user.id;
+    const blogs = await ChatModels.find({userId});
     res.status(200).json(blogs);
   } catch (error) {
     console.error('Error fetching blogs:', error);

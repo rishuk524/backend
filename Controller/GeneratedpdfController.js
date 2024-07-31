@@ -34,13 +34,12 @@ const updateContent = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-
-
 };
 const getAllContent = async (req, res) => {
     try {
+         const userId = req.user.id;
         // Fetch all content from the database
-        const allContent = await generatedModels.find();
+        const allContent = await generatedModels.find({userId});
 
         // Send the list of content as a JSON response
         res.status(200).json({ success: true, content: allContent });
@@ -48,8 +47,7 @@ const getAllContent = async (req, res) => {
         // Handle any errors that occur
         res.status(500).json({ success: false, message: "Server error", error: error.message });
     }
-};
-
+}; 
   module.exports = {
    saveGeneratedContent,
    updateContent,
