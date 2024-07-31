@@ -1,19 +1,25 @@
-
 const jwt = require('jsonwebtoken');
 
 const jwtMiddleware = (req, res, next) => {
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
+  if (!authHeader) {
     return res.status(401).json({ success: false, message: 'Unauthorized: No token provided' });
   }
 
+  const token = authHeader.replace('Bearer ', '');
+  
   try {
-    const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
-    req.user = decoded;
-    // console.log(req.user);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Decoded Token:', decoded); // Debug log
+
+    if (!decoded || !decoded.userId) {
+      return res.status(401).json({ success: false, message: 'Unauthorized: Invalid token structure' });
+    }
+
+    req.user = { id: decoded.userId }; // Ensure `req.user.id` is set correctly
+    console.log('Authenticated User:', req.user); // Confirm user id is available
     next();
-    console.log(req.user);
   } catch (error) {
     console.error('Error verifying token:', error.message);
     return res.status(401).json({ success: false, message: 'Unauthorized: Invalid token' });
@@ -21,5 +27,5 @@ const jwtMiddleware = (req, res, next) => {
 };
 
 module.exports = {
-    jwtMiddleware
-}
+  jwtMiddleware
+};

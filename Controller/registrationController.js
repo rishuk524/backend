@@ -82,7 +82,22 @@ const loginUser = async (req, res) => {
 
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    // Fetch all users from the database
+    const users = await userModel.find();
+
+    // Send the list of users as a JSON response
+    res.status(200).json({ success: true, users });
+  } catch (error) {
+    // Handle any errors that occur
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+
 module.exports = {
   registerUser,
   loginUser,
+  getAllUsers
 };
