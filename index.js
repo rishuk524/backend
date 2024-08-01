@@ -8,7 +8,9 @@ const registrationRoutes = require("./Routes/registrationRoutes")
 const blogRoutes = require('./Routes/ChatRoutes');
 const generatedRoutes = require("./Routes/GeneratedRoutespdf")
 const  pettitionRoutes = require("./Routes/PettitionRoutes")
+const NoticeRoutes = require("./Routes/NoticeRoutes")
 const messageRoutes = require("./Routes/MessageRoutes")
+ const userRoutes = require('./Routes/UserRoutes')
 const socketHandler = require("./Utils/SocketHandler")
 require('dotenv').config();
 
@@ -29,6 +31,8 @@ app.use('/api', blogRoutes);
 app.use('/api', generatedRoutes)
 app.use('/api', pettitionRoutes)
 app.use('/api', messageRoutes);
+app.use('/api',NoticeRoutes)
+app.use('/api',userRoutes)
 
 // Socket.IO
 socketHandler(io)
