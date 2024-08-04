@@ -1,30 +1,32 @@
-const Message = require('../Models/MessageModels');
+// socket.js
+const socketIo = require('socket.io');
 
-module.exports = (io) => {
+let io;
+
+const initializeSocket = (server) => {
+  io = socketIo(server);
+
   io.on('connection', (socket) => {
-    console.log('New client connected');
+    console.log('Client connected');
 
-    socket.on('join', (userId) => {
-      socket.join(userId);
-      console.log(`User ${userId} joined their room`);
-    });
-
-    socket.on('sendMessage', async (data) => {
-      try {
-        const { sender, recipient, content } = data;
-        const newMessage = new Message({ sender, recipient, content });
-        await newMessage.save();
-        console.log(newMessage);
-
-        io.to(recipient).emit('newMessage', newMessage);
-        io.to(sender).emit('messageSent', newMessage);
-      } catch (error) {
-        console.error('Error sending message:', error);
-      }
+    socket.on('send_message', (data) => {
+      console.log('Received message:', data);
+      io.emit('receive_message', data); // Broadcast to all connected clients
     });
 
     socket.on('disconnect', () => {
       console.log('Client disconnected');
     });
   });
+
+  return io;
 };
+
+const getSocketInstance = () => {
+  if (!io) {
+    throw new Error('Socket.io not initialized');
+  }
+  return io;
+};
+
+module.exports = { initializeSocket, getSocketInstance };

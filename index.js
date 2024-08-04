@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser')
-const http = require('http');
-const socketIO = require('socket.io');
+ const http = require('http');
+ const socketIo = require('socket.io');
 const connectDB = require('./Config/database');
 const cors = require("cors")
 const registrationRoutes = require("./Routes/registrationRoutes")
@@ -11,13 +11,15 @@ const  pettitionRoutes = require("./Routes/PettitionRoutes")
 const NoticeRoutes = require("./Routes/NoticeRoutes")
 const messageRoutes = require("./Routes/MessageRoutes")
  const userRoutes = require('./Routes/UserRoutes')
-const socketHandler = require("./Utils/SocketHandler")
+ const {initializeSocket, getSocketInstance} = require("./Utils/SocketHandler")
 require('dotenv').config();
 
 const app = express();
 
-const server = http.createServer(app);
-const io = socketIO(server);
+ const server = http.createServer(app);
+//  const io = socketIo(server);
+initializeSocket(server);
+
 
 // Middleware
 app.use(express.json());
@@ -35,7 +37,7 @@ app.use('/api',NoticeRoutes)
 app.use('/api',userRoutes)
 
 // Socket.IO
-socketHandler(io)
+// socketHandler(io)
 
 
 app.get('/', (req, res) => {
