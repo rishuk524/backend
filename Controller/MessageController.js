@@ -62,12 +62,17 @@ const {initializeSocket, getSocketInstance} = require("../Utils/SocketHandler")
 
 exports.createChat = async (req, res) => {
   try {
-    const { users } = req.body;
-    const chat = new Chat1({ users });
+    const {userId, users } = req.body;
+    console.log(users);
+    
+    const chat = new Chat1({userId, users });
     await chat.save();
     res.json(chat);
+    console.log(chat);
+    
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error('Error creating chat:', err);
+    res.status(500).json({ message: 'Server Error', error: err.message });
   }
 };
 
