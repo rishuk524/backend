@@ -38,7 +38,6 @@ app.use('/api', pettitionRoutes)
 app.use('/api', messageRoutes);
 app.use('/api',NoticeRoutes)
 app.use('/api',userRoutes)
-app.use('/api',notifficationRoutes)
 
 // Socket.IO
 // socketHandler(io)

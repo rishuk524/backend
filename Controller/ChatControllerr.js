@@ -1,14 +1,16 @@
 // 
 const Conversation = require('../Models/ChatModels');
-// console.log(Conversation);
+//  console.log(Conversation);
 
 const sendMessage =  async (req, res) => {
   try {
-    const { userId, message } = req.body;
+    const { userId, message, response } = req.body;
+    console.log(req.body);
+    
 
-    // Dummy response logic, replace with actual chatbot logic
-    const response = `Echo: ${message}`;
-
+    if (!userId ||!message ||!response) {
+      return res.status(400).json({ error: 'Please provide all required fields' });
+    }
     // Find or create conversation
     let conversation = await Conversation.findOne({ userId });
     console.log(conversation);
