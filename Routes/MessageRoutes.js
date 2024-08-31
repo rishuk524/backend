@@ -22,8 +22,8 @@ router.get('/get-chats/:id', jwtMiddleware.jwtMiddleware, MessageController.getM
 // Delete a message
 router.delete('/delete-chats/:id/:messageId', jwtMiddleware.jwtMiddleware, MessageController.deleteMessage);
 //notification routes
-router.post('/notificaton',jwtMiddleware.jwtMiddleware, MessageController.Notification)
-router.get('/get-notiffication', jwtMiddleware.jwtMiddleware, MessageController.getNotification)
+// router.post('/notificaton',jwtMiddleware.jwtMiddleware, MessageController.Notification)
+// router.get('/get-notiffication', jwtMiddleware.jwtMiddleware, MessageController.getNotification)
 
 
 

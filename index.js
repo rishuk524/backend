@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express') ;
 const bodyParser = require('body-parser')
  const http = require('http');
  const socketIo = require('socket.io');
@@ -11,14 +11,17 @@ const  pettitionRoutes = require("./Routes/PettitionRoutes")
 const NoticeRoutes = require("./Routes/NoticeRoutes")
 const messageRoutes = require("./Routes/MessageRoutes")
  const userRoutes = require('./Routes/UserRoutes')
- const {initializeSocket, getSocketInstance} = require("./Utils/SocketHandler")
+ const {initializeSocket,getSocketInstance} = require("./Utils/SocketHandler")
+ const notifficationRoutes = require("./Routes/NotificationRoutes")
 require('dotenv').config();
+// const socketHandlerChatBot= require("./Utils/SocketHandlerChatbot")
 
-const app = express();
+ const app = express();
 
  const server = http.createServer(app);
-//  const io = socketIo(server);
+  // const io = socketIo(server);
 initializeSocket(server);
+getSocketInstance(server);
 
 
 // Middleware
@@ -35,6 +38,7 @@ app.use('/api', pettitionRoutes)
 app.use('/api', messageRoutes);
 app.use('/api',NoticeRoutes)
 app.use('/api',userRoutes)
+app.use('/api',notifficationRoutes)
 
 // Socket.IO
 // socketHandler(io)
@@ -47,5 +51,9 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000// Connect to database
 connectDB().then(()=>{
     console.log("Db connected sucessfully")
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 })
+
+// http.listen(3000, function(){
+// 	console.log('Listening to port 3000');
+// })

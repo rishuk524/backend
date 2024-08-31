@@ -1,40 +1,62 @@
-const ChatModels = require('../Models/ChatModels');
+// 
+const Conversation = require('../Models/ChatModels');
+// console.log(Conversation);
 
-const createChat = async (req, res) => {
+const sendMessage =  async (req, res) => {
   try {
-    const { question, answer } = req.body;
-    const userId = req.user.id; // Get the authenticated user's ID
+    const { userId, message } = req.body;
 
-    const newChat = new ChatModels({
-      question,
-      answer,
-      userId // Link the chat to the user
-    });
+    // Dummy response logic, replace with actual chatbot logic
+    const response = `Echo: ${message}`;
 
-    await newChat.save();
-    res.status(201).json(newChat);
+    // Find or create conversation
+    let conversation = await Conversation.findOne({ userId });
+    console.log(conversation);
+    
+    if (!conversation) {
+      conversation = new Conversation({ userId, messages: [] });
+    }
 
+    // Add new message and response
+    conversation.messages.push({ message, response  });
+    await conversation.save();
+
+    res.status(200).json({ userId, message, response });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ error: error.message });
   }
-};
-const getAllChat = async (req, res) => {
+}
+
+// Get Conversation History
+ const getConversationMessage = async (req, res) => {
   try {
-    const userId = req.user.id; // Get the authenticated user's ID
+    const { userId } = req.params;
+    const conversation = await Conversation.findOne({ userId });
 
-    // Fetch all chats for the authenticated user
-    const chats = await ChatModels.find({ userId });
+    if (!conversation) {
+      return res.status(404).json({ message: 'No conversation found' });
+    }
 
-    // Send the list of chats as a JSON response
-    res.status(200).json({ success: true, chats });
+    res.status(200).json(conversation.messages);
   } catch (error) {
-    console.error('Error fetching chats:', error);
-    res.status(500).json({ success: false, message: 'Failed to fetch chats', error: error.message });
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// Clear Conversation History
+ const clearConverSationMessage = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    await Conversation.deleteOne({ userId });
+
+    res.status(200).json({ sucess: "true", message: 'Conversation history cleared successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
 module.exports = {
-  createChat,
-  getAllChat
-};
-
+  sendMessage,
+  getConversationMessage,
+  clearConverSationMessage
+}

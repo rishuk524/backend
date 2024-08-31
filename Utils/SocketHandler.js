@@ -7,11 +7,11 @@ const initializeSocket = (server) => {
   io = socketIo(server);
 
   io.on('connection', (socket) => {
-    console.log('Client connected');
+    console.log('Client connected', socket.id);
 
     socket.on('send_message', (data) => {
       console.log('Received message:', data);
-      io.emit('receive_message', data); // Broadcast to all connected clients
+      io.emit('receive_message', data);
     });
 
     socket.on('disconnect', () => {

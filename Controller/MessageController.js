@@ -57,7 +57,7 @@
 const Chat1 = require('../Models/MessageModel2');
 const User = require('../Models/UserModels');
 const MessageModel = require('../Models/MessageModel');
-const {initializeSocket, getSocketInstance} = require("../Utils/SocketHandler")
+// const {initializeSocket, getSocketInstance} = require("../Utils/SocketHandler")
 
 
 exports.createChat = async (req, res) => {
@@ -149,6 +149,8 @@ exports.getMessages = async (req, res) => {
 // Delete a message
 exports.deleteMessage = async (req, res) => {
   const { id, messageId } = req.params; // Chat ID and Message ID
+  console.log(messageId);
+  
   const userId = req.user.id; // Sender ID from JWT
 
   try {
@@ -174,38 +176,38 @@ exports.deleteMessage = async (req, res) => {
 
 
 // Assuming Chat1 is your Notification model
-exports.Notification = async (req, res) => {
-  try {
-    const { userId, message } = req.body;
-    const notification = new Chat1({ userId, message });
-    console.log(notification);
+// exports.Notification = async (req, res) => {
+//   try {
+//     const { userId, message } = req.body;
+//     const notification = new Chat1({ userId, message });
+//     console.log(notification);
     
-    await notification.save();
-    res.status(201).json(notification);
-    console.log(notification);
+//     await notification.save();
+//     res.status(201).json(notification);
+//     console.log(notification);
     
 
-    // Send notification to the user via WebSocket
-    const io = getSocketInstance(); // Ensure this is correctly retrieved
-    io.emit('notification', notification);
+//     // Send notification to the user via WebSocket
+//     const io = getSocketInstance(); // Ensure this is correctly retrieved
+//     io.emit('notification', notification);
 
-    // Ensure we do not continue executing after sending a response
-    return; 
-  } catch (err) {
-    console.error('Error in POST /api/notifications:', err);
-    if (!res.headersSent) {
-      res.status(500).json({ msg: 'Server Error' });
-    }
-    return; // Ensure we do not continue executing after sending a response
-  }
-};
+//     // Ensure we do not continue executing after sending a response
+//     return; 
+//   } catch (err) {
+//     console.error('Error in POST /api/notifications:', err);
+//     if (!res.headersSent) {
+//       res.status(500).json({ msg: 'Server Error' });
+//     }
+//     return; // Ensure we do not continue executing after sending a response
+//   }
+// };
 
 
-exports.getNotification = async (req, res) => {
-  try {
-    const notifications = await Chat1.find({ userId: req.user.id });
-    res.json(notifications);
-  } catch (err) {
-    res.status(500).json({ msg: 'Server Error' });
-  }
-};
+// exports.getNotification = async (req, res) => {
+//   try {
+//     const notifications = await Chat1.find({ userId: req.user.id });
+//     res.json(notifications);
+//   } catch (err) {
+//     res.status(500).json({ msg: 'Server Error' });
+//   }
+// };
