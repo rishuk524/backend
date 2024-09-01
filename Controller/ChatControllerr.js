@@ -56,9 +56,31 @@ const sendMessage =  async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const getMultipleConversations = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId || !Array.isArray(userId)) {
+      return res.status(400).json({ error: 'Please provide an array of userIds' });
+    }
+
+    const conversations = await Conversation.find({
+      userId: { $in: userId }
+    });
+
+    if (conversations.length === 0) {
+      return res.status(404).json({ message: 'No conversations found for the provided userIds' });
+    }
+
+    res.status(200).json(conversations);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = {
   sendMessage,
   getConversationMessage,
-  clearConverSationMessage
+  clearConverSationMessage,
+  getMultipleConversations
 }
